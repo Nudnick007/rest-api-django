@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-
+from django.shortcuts import render
 from app_main.models import Vendor, PurchaseOrder
 from app_main.serializers import VendorSerializer, PurchaseOrderSerializer
 
@@ -147,3 +147,6 @@ def purchaseorderApi(request, id=0):
         except Exception as e:
             # Return JSON response with error message if an exception occurs
             return JsonResponse({"error": str(e)}, safe=False)
+
+def home(request):
+    return render(request, "index.html")

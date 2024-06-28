@@ -1,4 +1,5 @@
 from django.urls import re_path as url
+from django.urls import path
 from app_main import views
 
 urlpatterns = [
@@ -13,4 +14,6 @@ urlpatterns = [
     
     # URL pattern for handling GET, PUT, and DELETE requests related to a specific purchase order identified by ID
     url(r'^purchaseorder/([0-9]+)$', views.purchaseorderApi),
+
+    path("", views.home,name="home")
 ]
