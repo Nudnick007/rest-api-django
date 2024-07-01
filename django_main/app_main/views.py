@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-from django.shortcuts import render
 from app_main.models import Vendor, PurchaseOrder
 from app_main.serializers import VendorSerializer, PurchaseOrderSerializer
+from django.contrib import messages
+from django.http import HttpResponse
+from .forms import DetailsForm
+from .models import Details
 
 @csrf_exempt
 def vendorApi(request, id=0):
@@ -150,3 +153,14 @@ def purchaseorderApi(request, id=0):
 
 def home(request):
     return render(request, "index.html")
+
+def upload_file(request):
+    if request.method == "POST":
+        form = DetailsForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the document name and the file
+            form.save()
+            return redirect('upload_success')  
+    else:
+        form = DetailsForm()
+    return render(request, 'upload.html', {'form': form})

@@ -16,3 +16,7 @@ class PurchaseOrder(models.Model):
     Customer = models.CharField(max_length=255)
     IaSubmissionDate = models.DateField() 
     InspectionDate = models.DateField()
+
+class Details(models.Model):
+    DocName = models.CharField(max_length=255,primary_key=True)
+    Doc = models.FileField(upload_to="app_main/files/",blank=True,null=True)
