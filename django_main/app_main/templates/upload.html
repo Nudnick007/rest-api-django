@@ -42,6 +42,8 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
+            <input type="file" name="files" id="fileInput" class="file-input" multiple>
+            <label for="fileInput" class="custom-file-upload">Select Multiple Files</label>
             <button type="submit">Upload</button>
         </form>
     </div>

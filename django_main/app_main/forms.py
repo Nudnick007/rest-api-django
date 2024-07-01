@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import ClearableFileInput
-from .models import Details
+from .models import document
 
 class DetailsForm(forms.ModelForm):
     class Meta:
-        model = Details
+        model = document
         fields = ('DocName', 'Doc')

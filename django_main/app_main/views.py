@@ -7,7 +7,7 @@ from app_main.serializers import VendorSerializer, PurchaseOrderSerializer
 from django.contrib import messages
 from django.http import HttpResponse
 from .forms import DetailsForm
-from .models import Details
+from .models import document
 
 @csrf_exempt
 def vendorApi(request, id=0):
@@ -158,8 +158,13 @@ def upload_file(request):
     if request.method == "POST":
         form = DetailsForm(request.POST, request.FILES)
         if form.is_valid():
-            # Save the document name and the file
-            form.save()
+            # If multiple files are uploaded, iterate through them
+            for file in request.FILES.getlist('files'):
+                # Create a new instance of DetailsForm for each file
+                form = DetailsForm(request.POST, {'DocName': file.name, 'Doc': file})
+                if form.is_valid():
+                    form.save()
+            
             return redirect('upload_success')  
     else:
         form = DetailsForm()

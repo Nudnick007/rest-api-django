@@ -17,6 +17,9 @@ class PurchaseOrder(models.Model):
     IaSubmissionDate = models.DateField() 
     InspectionDate = models.DateField()
 
-class Details(models.Model):
-    DocName = models.CharField(max_length=255,primary_key=True)
+class document(models.Model):
+    Id = models.AutoField(primary_key=True)
+    DocName = models.CharField(max_length=255)
     Doc = models.FileField(upload_to="app_main/files/",blank=True,null=True)
+    # DocType = models.CharField(max_length=255)
+    # PONO = models.ForeignKey('PurchaseOrder', on_delete=models.CASCADE)
