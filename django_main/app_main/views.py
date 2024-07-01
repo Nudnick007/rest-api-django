@@ -158,10 +158,17 @@ def upload_file(request):
     if request.method == "POST":
         form = DetailsForm(request.POST, request.FILES)
         if form.is_valid():
+            DocType = request.POST.get('DocType')
+            PONO = request.POST.get('PONO')
             # If multiple files are uploaded, iterate through them
             for file in request.FILES.getlist('files'):
                 # Create a new instance of DetailsForm for each file
-                form = DetailsForm(request.POST, {'DocName': file.name, 'Doc': file})
+                form = DetailsForm(request.POST, {
+                    'DocName': file.name,
+                    'Doc': file,
+                    'DocType': DocType,
+                    'PONO': PONO
+                    })
                 if form.is_valid():
                     form.save()
             

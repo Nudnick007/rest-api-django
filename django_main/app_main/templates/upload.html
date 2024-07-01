@@ -40,10 +40,25 @@
 
     <div class="file-input-container">
         <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
+            <input type="hidden" name="csrfmiddlewaretoken" value="GMXz0Icy5zSdr6gVOft0anE1Eh8dm8Ic2XZ29LT2pxj4kzvCamCF99U0wE5x7wDk">
+            <p>
+                <label for="id_DocName">DocName:</label>
+                <input type="text" name="DocName" maxlength="255" required="" id="id_DocName">
+            </p>
+            <p>
+                <label for="id_DocType">DocType:</label>
+                <input type="text" name="DocType" maxlength="255" required="" id="id_DocType">
+            </p>
+            <p>
+                <label for="id_PONO">PONO:</label>
+                <input type="text" name="PONO" maxlength="255" required="" id="id_PONO">
+            </p>
+            <!-- <p>
+                <label for="id_Doc">Doc:</label>
+                <input type="file" name="Doc" id="id_Doc">
+            </p> -->
             <input type="file" name="files" id="fileInput" class="file-input" multiple>
-            <label for="fileInput" class="custom-file-upload">Select Multiple Files</label>
+            <label for="fileInput" class="custom-file-upload">Select Files</label>
             <button type="submit">Upload</button>
         </form>
     </div>
