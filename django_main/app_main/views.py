@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from .forms import DetailsForm
 from .models import document
 
+
 @csrf_exempt
 def vendorApi(request, id=0):
     """
@@ -30,18 +31,26 @@ def vendorApi(request, id=0):
         try:
             # Parse JSON data from request
             vendor_data = JSONParser().parse(request)
+            vendorExists=Vendor.objects.filter(VendorNo=vendor_data['VendorNo'])
+            if vendorExists.count == 0:
             # Initialize serializer with parsed data
-            vendors_serializer = VendorSerializer(data=vendor_data)
-            if vendors_serializer.is_valid():
-                # Save valid serializer data to database
-                vendors_serializer.save()
-                # Return success message
-                return JsonResponse("Added Successfully", safe=False)
-            # Return error message if serializer data is invalid
-            return JsonResponse("Failed to Add", safe=False)
+                vendors_serializer = VendorSerializer(data=vendor_data)
+                if vendors_serializer.is_valid():
+                    # Save valid serializer data to database
+                    vendors_serializer.save()
+                    # Return success message
+                    return JsonResponse("Added Successfully", safe=False)
+                # Return error message if serializer data is invalid
+                else:
+                    # Print serializer errors for debugging
+                    print(vendors_serializer.errors)
+                    # Return error message if serializer data is invalid
+                    return JsonResponse(vendors_serializer.errors, safe=False, status=400)
+            else:
+                return JsonResponse('Vendor alredy exists',safe=False)
         except Exception as e:
-            # Return JSON response with error message if an exception occurs
-            return JsonResponse({"error": str(e)}, safe=False)
+                # Return JSON response with error message if an exception occurs
+                return JsonResponse({"error": str(e)}, safe=False)
 
     elif request.method == "PUT":
         try:
@@ -109,6 +118,7 @@ def purchaseorderApi(request, id=0):
                 # Return success message
                 return JsonResponse("Added Successfully", safe=False)
             # Return error message if serializer data is invalid
+            print(purchaseorders_serializer)
             return JsonResponse("Failed to Add", safe=False)
         except Exception as e:
             # Return JSON response with error message if an exception occurs
@@ -151,9 +161,15 @@ def purchaseorderApi(request, id=0):
             # Return JSON response with error message if an exception occurs
             return JsonResponse({"error": str(e)}, safe=False)
 
-def home(request):
-    return render(request, "index.html")
+def main(request):
+    return render(request, 'main.html')
 
+def mainadm(request):
+    vendors=Vendor.objects.all()
+    purchase=PurchaseOrder.objects.all()
+    return render(request, 'mainadm.html',{"vendor":vendors, "purchase": purchase})
+
+@csrf_exempt
 def upload_file(request):
     if request.method == "POST":
         form = DetailsForm(request.POST, request.FILES)

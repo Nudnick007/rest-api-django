@@ -5,9 +5,13 @@ class VendorSerializer(serializers.ModelSerializer):
     """
     Serializer for the Vendor model.
     """
+    Email = serializers.EmailField(allow_blank=True, required=False)
+    Territory = serializers.CharField(allow_blank=True, required=False)
+    IaAlertDays = serializers.IntegerField(allow_null=True, required=False)
+
     class Meta:
         model = Vendor
-        fields = ('VendorNo', 'VendorName', 'Email', 'Territory', 'IaAlertDays')
+        fields = ('VendorNo', 'VendorName', 'Email', 'Email2', 'Email3', 'Email4', 'Territory', 'IaAlertDays')
 
 class PurchaseOrderSerializer(serializers.ModelSerializer):
     """
