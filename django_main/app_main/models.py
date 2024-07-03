@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -11,6 +13,12 @@ class Vendor(models.Model):
     Email4 = models.EmailField(null=True)
     Territory = models.CharField(null=True,max_length=255)
     IaAlertDays = models.IntegerField(null=True)
+    Password = models.CharField(max_length=255, editable=False, blank=True)
+    
+@receiver(pre_save, sender=Vendor)
+def set_default_password(instance, **kwargs):
+    if not instance.Password:
+        instance.Password = instance.VendorNo
 
 class PurchaseOrder(models.Model):
     PONO = models.CharField(max_length = 255,primary_key=True)
