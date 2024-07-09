@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from .forms import DetailsForm
 from .models import document
-
+import uuid
 
 @csrf_exempt
 def vendorApi(request, id=0):
@@ -178,17 +178,19 @@ def upload_file(request):
             PONO = request.POST.get('PONO')
             # If multiple files are uploaded, iterate through them
             for file in request.FILES.getlist('files'):
+                # Extract the file name from the uploaded file
+                doc_name = file.name
                 # Create a new instance of DetailsForm for each file
-                form = DetailsForm(request.POST, {
-                    'DocName': file.name,
-                    'Doc': file,
+                form = DetailsForm({
                     'DocType': DocType,
-                    'PONO': PONO
-                    })
+                    'PONO': PONO,
+                    'DocName': doc_name
+                }, {'Doc': file})
                 if form.is_valid():
                     form.save()
             
-            return redirect('upload_success')  
+            return redirect('upload_success')
+        print('Form is not valid')
     else:
         form = DetailsForm()
     return render(request, 'upload.html', {'form': form})

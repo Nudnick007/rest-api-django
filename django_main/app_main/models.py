@@ -23,6 +23,7 @@ def set_default_password(instance, **kwargs):
 class PurchaseOrder(models.Model):
     PONO = models.CharField(max_length = 255,primary_key=True)
     VendorNo = models.ForeignKey('Vendor', on_delete=models.CASCADE)
+    # VendorName = models.ForeignKey('Vendor', to_field='VendorName', on_delete=models.CASCADE, related_name='purchase_orders_vendorname',null=True,unique=True)
     ShipDate = models.DateField()
     Customer = models.CharField(max_length=255)
     IaSubmissionDate = models.DateField(null=True) 
@@ -33,7 +34,18 @@ class PurchaseOrder(models.Model):
 
 class document(models.Model):
     Id = models.AutoField(primary_key=True)
-    DocName = models.CharField(max_length=255)
+    DocName = models.TextField(max_length=255,null=True)
     Doc = models.FileField(upload_to="files",blank=True,null=True)
     DocType = models.CharField(max_length=255,null=True)
     PONO = models.ForeignKey('PurchaseOrder', on_delete=models.CASCADE,null=True)
+    VendorNo = models.ForeignKey('Vendor', on_delete=models.CASCADE,null=True)
+
+class users(models.Model):
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('user', 'User'),
+    ]
+    username = models.CharField(max_length=255,primary_key=True)
+    role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
+    password = models.CharField(max_length=500)
+

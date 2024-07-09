@@ -25,4 +25,4 @@ class PurchaseOrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PurchaseOrder
-        fields = ('PONO', 'VendorNo', 'ShipDate', 'Customer', 'IaSubmissionDate', 'InspectionDate')
+        fields = ('PONO', 'VendorNo', 'VendorName', 'ShipDate', 'Customer', 'IaSubmissionDate', 'InspectionDate', 'InspectionDateProposed', 'Status', 'Alerts')
