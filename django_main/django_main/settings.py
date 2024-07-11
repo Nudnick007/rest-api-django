@@ -86,7 +86,7 @@ DATABASES = {
         "NAME": "VPdb",
         "USER": "postgres",
         "PASSWORD": "app@larken",
-        "HOST": "localhost",
+        "HOST": "10.0.0.199",
         "PORT": "5432"
     }
 }

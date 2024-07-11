@@ -176,6 +176,7 @@ def upload_file(request):
         if form.is_valid():
             DocType = request.POST.get('DocType')
             PONO = request.POST.get('PONO')
+            VendorNo = request.POST.get('VendorNo')
             # If multiple files are uploaded, iterate through them
             for file in request.FILES.getlist('files'):
                 # Extract the file name from the uploaded file
@@ -184,6 +185,7 @@ def upload_file(request):
                 form = DetailsForm({
                     'DocType': DocType,
                     'PONO': PONO,
+                    'VendorNo': VendorNo,
                     'DocName': doc_name
                 }, {'Doc': file})
                 if form.is_valid():
