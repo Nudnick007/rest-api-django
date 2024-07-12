@@ -35,6 +35,7 @@ class PurchaseOrder(models.Model):
     Status = models.CharField(default="Inspection date to be submitted")
     Alerts = models.CharField(null=True)
     username = models.ForeignKey('users', on_delete=models.CASCADE,null=True)
+    vendoralerts = models.CharField(max_length=500,null=True)
 
     def __str__(self):
         return self.PONO
