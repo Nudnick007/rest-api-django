@@ -51,11 +51,27 @@ class document(models.Model):
 
     def save(self, *args, **kwargs):
         if self.VendorNo and self.PONO and self.DocType:
-            self.Convention = f"{self.VendorNo}-{self.PONO}-{self.DocType}"
+            base_convention = f"{self.VendorNo}-{self.PONO}-{self.DocType}"
+            self.Convention = base_convention
+
+            existing_documents = document.objects.filter(Convention__startswith=base_convention)
+            if existing_documents.exists():
+                max_suffix = 0
+                for doc in existing_documents:
+                    convention = doc.Convention
+                    if convention == base_convention:
+                        suffix = 1
+                    else:
+                        try:
+                            suffix = int(convention[len(base_convention)+1:])
+                        except ValueError:
+                            continue
+                    if suffix > max_suffix:
+                        max_suffix = suffix
+                new_suffix = max_suffix + 1
+                self.Convention = f"{base_convention}-{new_suffix}"
+
         super().save(*args, **kwargs)
-    
-    def __str__(self):
-        return f"{self.VendorNo}{self.PONO}({self.DocType})"
 
 class users(models.Model):
     ROLE_CHOICES = [
