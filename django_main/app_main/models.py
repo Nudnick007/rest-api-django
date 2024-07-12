@@ -78,6 +78,7 @@ class users(models.Model):
     ROLE_CHOICES = [
         ('admin', 'Admin'),
         ('user', 'User'),
+        ('qa', 'Qa'),
     ]
     username = models.CharField(max_length=255,primary_key=True)
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
