@@ -82,5 +82,6 @@ class users(models.Model):
     username = models.CharField(max_length=255,primary_key=True)
     role = models.CharField(max_length=5, choices=ROLE_CHOICES, default='user')
     password = models.CharField(max_length=500)
+    email = models.EmailField(default="",blank=True)
     
 
